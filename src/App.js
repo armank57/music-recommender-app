@@ -5,15 +5,12 @@ import './App.css';
 function App() {
 
   const CLIENT_ID = "3bfca1a4fbc94f3f9a861b34e5c8d61f";
-  const CLIENT_SECRET = "136347fed86a4dd2ae50407d89fa0f4d";
   const REDIRECT_URI = "http://localhost:3000";
-  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-  const RESPONSE_TYPE = "token";
   const SCOPES = 'user-top-read playlist-modify-private';
 
-  let access_token = localStorage.getItem('access_token');
-  let refresh_token = localStorage.getItem('refresh_token');
-  let expires_at = localStorage.getItem('expires_at');
+  const [access_token, setAccessToken] = useState(() => localStorage.getItem('access_token'));
+  const [refresh_token, setRefreshToken] = useState(() => localStorage.getItem('refresh_token') || null);
+  const [expires_at, setExpiresAt] = useState(() => localStorage.getItem('expires_at') || null);
 
   function generateRandomString(length) {
     let text = '';
@@ -50,7 +47,7 @@ function App() {
 
   const redirectToAuth = () => {
     const codeVerifier = generateRandomString(64);
-
+    
     generateCodeChallenge(codeVerifier).then((code_challenge) => {
       window.localStorage.setItem('code_verifier', codeVerifier);
 
@@ -70,11 +67,11 @@ function App() {
 
   function exchangeToken(code) {
     const code_verifier = localStorage.getItem('code_verifier');
-
+    
     fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
       body: new URLSearchParams({
         client_id: CLIENT_ID,
@@ -120,15 +117,16 @@ function App() {
   function processTokenResponse(data) {
     console.log(data);
 
-    access_token = data.access_token;
-    refresh_token = data.refresh_token;
+    setAccessToken(data.access_token);
+    setRefreshToken(data.refresh_token);
 
     const t = new Date();
-    expires_at = t.setSeconds(t.getSeconds() + data.expires_in);
+    const expirationTime = t.setSeconds(t.getSeconds() + data.expires_in);
+    setExpiresAt(expirationTime);
 
-    localStorage.setItem('access_token', access_token);
-    localStorage.setItem('refresh_token', refresh_token);
-    localStorage.setItem('expires_at', expires_at);
+    localStorage.setItem('access_token', data.access_token);
+    localStorage.setItem('refresh_token', data.refresh_token);
+    localStorage.setItem('expires_at', expirationTime);
   }
 
   function handleError(error) {
@@ -143,45 +141,32 @@ function App() {
     }
   }
 
-  const args = new URLSearchParams(window.location.search);
-  let code = args.get('code');
+  const isTokenExpired = () => {
+    if (!expires_at) return true;
+    const expirationTime = parseInt(expires_at, 10);
+    const currentTime = Date.now();
+    return currentTime >= expirationTime;
+  };
 
-  if (code) {
-    // exchangeToken(code);
-  } else if (access_token && refresh_token && expires_at) {
-
-  }
+  useEffect(() => {
+    if (isTokenExpired() && refresh_token) {
+      refreshToken();
+    }
+  }, [expires_at, refresh_token])
 
   useEffect( () => {
-    if (code) {
-      exchangeToken(code);
-    } else if (access_token && refresh_token && expires_at) {
+    const args = new URLSearchParams(window.location.search);
+    let code = args.get('code');
+    let token = localStorage.getItem('access_token');
 
-    }
+    if (code && !token) {
+      exchangeToken(code);
+    } 
   }, [])
 
-  const [token, setToken] = useState("");
-
-/*  useEffect( () => {
-    const hash = window.location.hash;
-    let token = window.localStorage.getItem("token");
-
-    if (!token && hash) {
-      token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1];
-      
-      window.location.hash = "";
-      window.localStorage.setItem("token", token);
-      setToken(token);
-    }
-
-  }, []) */
-
   const logout = () => {
-    setToken("");
-    window.localStorage.removeItem("access_token");
-    window.localStorage.removeItem("refresh_token");
-    window.localStorage.removeItem("expires_at");
-    window.localStorage.removeItem("code_verifier");
+    localStorage.clear();
+    window.location.reload();
   }
 
   return (
@@ -193,15 +178,12 @@ function App() {
         </p>
 
         { !access_token ?
-        /*<a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPES}`}>
-          Log-in to Spotify
-        </a> */
         <button onClick={redirectToAuth}>Log In</button>
         : <button onClick={logout}>Logout</button>
         }
 
         { access_token ?
-        <GenerateRecs token={access_token}/>
+        <GenerateRecs />
         : <h3>Please log-in to gain access to the rest of the page.</h3>
         }
 
