@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import './GenerateRecs.css'
 
 async function fetchWebApi(endpoint, method, body) {
@@ -16,6 +16,7 @@ async function fetchWebApi(endpoint, method, body) {
 
 function GenerateRecs() {
 
+  const [isClicked, setIsClicked] = useState(null);
 
   async function getTopTracks() {
     return (await fetchWebApi('v1/me/top/tracks?time_range=short_term&limit=50', 'GET')).items;
@@ -23,9 +24,12 @@ function GenerateRecs() {
 
   /* Upon click, we get the top tracks that the user listens to */
   const handleClick = async () => {
-    const result = await getTopTracks();
-    for (let i = 0; i < 50; i++) {
-      console.log(result[i].name);
+    if (!isClicked) {
+      setIsClicked(true);
+      const result = await getTopTracks();
+      for (let i = 0; i < 50; i++) {
+        console.log(result[i].name);
+      }
     }
   };
 
