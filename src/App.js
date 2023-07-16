@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { GenerateRecs } from './Components'
+import { GenerateRecs } from './Components';
 import './App.css';
 
 function App() {
