@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import './GenerateRecs.css'
+import './GenerateRecs.css';
+import DisplaySongs from '../DisplaySongs';
 
 async function fetchWebApi(endpoint, method, body) {
   let accessToken = localStorage.getItem('access_token');
@@ -17,6 +18,7 @@ async function fetchWebApi(endpoint, method, body) {
 function GenerateRecs() {
 
   const [isClicked, setIsClicked] = useState(null);
+  const [playlistMade, setPlaylistMade] = useState(null);
 
   const topTracksIds = []; // ids for getting recommendations
   const chunkedTopTrackIds = [];
@@ -32,7 +34,7 @@ function GenerateRecs() {
         counter++;
       }
       chunkedTopTrackIds.push(temp);
-    }  
+    }
   }
   
   async function getTopTracks() {
@@ -79,13 +81,20 @@ function GenerateRecs() {
       }
 
       const createdPlaylist = await createPlaylist(recommendedTracks);
-      console.log(createdPlaylist.name, createdPlaylist.id);
+      setPlaylistMade(true);
 
     }
   };
 
   return (
-        <button onClick={handleClick}>Click me!</button>
+        <div>
+          <button onClick={handleClick}>Click me!</button>
+          
+          { (isClicked && playlistMade) ?
+            <DisplaySongs />
+            : <h3></h3>
+          }
+        </div>
   );
 }
 
