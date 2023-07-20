@@ -17,12 +17,26 @@ async function fetchWebApi(endpoint, method, body) {
 
 function GenerateRecs() {
 
-  const [isClicked, setIsClicked] = useState(null);
-  const [playlistMade, setPlaylistMade] = useState(null);
+  const [isClicked, setIsClicked] = useState(false);
+  const [playlistMade, setPlaylistMade] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const topTracksIds = []; // ids for getting recommendations
   const chunkedTopTrackIds = [];
   const recommendedTracks = []; // URIs for making playlists
+
+  const oldTracks = []; // info for old tracks for DisplaySongs
+  const newTracks = []; // info for new tracks for DisplaySongs
+
+  const sampleTracks = [
+    {
+      name: "Mo Bamba",
+      artists: ["Shek Wes"],
+      album: "Sample Album",
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Banana-Single.jpg/2324px-Banana-Single.jpg",
+      id: "000x",
+    }
+  ];
 
   /* Parses the topTrackIds into chunks of 5 */
   function parseTopTracks() {
@@ -63,9 +77,18 @@ function GenerateRecs() {
   const handleClick = async () => {
     if (!isClicked) {
       setIsClicked(true);
+      setIsLoading(true);
+
       const result = await getTopTracks();
       for (let i = 0; i < 50; i++) {
         topTracksIds[i] = result[i].id;
+        oldTracks[i] = {
+          name: result[i].name,
+          album: result[i].album.name,
+          artists: result[i].artists,
+          image: result[i].album.images[0].url,
+          id: result[i].id,
+        };
       }
 
       parseTopTracks();
@@ -76,12 +99,20 @@ function GenerateRecs() {
         const tempRecs = await getRecommendations(i);
         for (let j = 0; j < 5; j++) {
           recommendedTracks[counter] = tempRecs[j].uri;
+          newTracks[counter] = {
+            name: tempRecs[j].name,
+            album: tempRecs[j].album.name,
+            artists: tempRecs[j].artists,
+            image: tempRecs[j].album.images[0].url,
+            id: tempRecs[j].id,
+          };
           counter++;
         }
       }
 
       const createdPlaylist = await createPlaylist(recommendedTracks);
       setPlaylistMade(true);
+      setIsLoading(false);
 
     }
   };
@@ -89,10 +120,12 @@ function GenerateRecs() {
   return (
         <div>
           <button onClick={handleClick}>Click me!</button>
-          
-          { (isClicked && playlistMade) ?
-            <DisplaySongs />
-            : <h3></h3>
+
+          { isLoading ?
+          <h3>Loading...</h3>
+          : (isClicked && playlistMade) ?
+            <DisplaySongs tracks={sampleTracks}/>
+            : <h3>Nothing to see</h3>
           }
         </div>
   );

@@ -1,0 +1,22 @@
+.track-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.track-item {
+    text-align: center;
+}
+
+.track-item img {
+    width: 200 px;
+    height: 200 px;
+    border-radius: 10 px;
+    margin-bottom: 10px;
+}
+
+.track-item p {
+    font-size: 18px;
+}
