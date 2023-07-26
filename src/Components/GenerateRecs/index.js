@@ -61,7 +61,6 @@ function GenerateRecs() {
   }
 
   async function createPlaylist(tracksUri) {
-    console.log(tracksUri);
     const { id: user_id } = await fetchWebApi('v1/me', 'GET');
 
     const playlist = await fetchWebApi(`v1/users/${user_id}/playlists`, 'POST', {

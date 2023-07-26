@@ -11,6 +11,8 @@
     height: 64px;
     object-fit: cover;
     margin-right: 10px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
 
 .track-details {

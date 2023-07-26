@@ -2,9 +2,6 @@ import React from 'react';
 import './DisplaySongs.css';
 
 const DisplaySongs = ({ tracks }) => {
-    console.log(tracks);
-    const artists = [];
-    
     return (
         <div>
             {tracks.map((track) => (

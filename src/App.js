@@ -170,9 +170,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Your New Top Hits</h1>
-        <p>Discover new music based on your top songs! View what you've been listening to a lot of lately,
-          and we'll generate recommendations and even a playlist to listen to right away in Spotify!
+        <h1>MusicCrafter</h1>
+        <p>
+          Your personal music recommender! Log-in to Spotify to view your recent listening history, 
+          and we'll generate recommendations and a playlist to listen to right away in Spotify.
         </p>
 
         { !access_token ?
