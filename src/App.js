@@ -115,8 +115,6 @@ function App() {
   }
 
   function processTokenResponse(data) {
-    console.log(data);
-
     setAccessToken(data.access_token);
     setRefreshToken(data.refresh_token);
 

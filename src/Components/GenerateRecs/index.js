@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './GenerateRecs.css';
 import DisplaySongs from '../DisplaySongs';
 
@@ -19,14 +19,15 @@ function GenerateRecs() {
 
   const [isClicked, setIsClicked] = useState(false);
   const [playlistMade, setPlaylistMade] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const topTracksIds = []; // ids for getting recommendations
   const chunkedTopTrackIds = [];
   const recommendedTracks = []; // URIs for making playlists
 
-  const oldTracks = []; // info for old tracks for DisplaySongs
-  const newTracks = []; // info for new tracks for DisplaySongs
+  const [oldTracks, setOldTracks] = useState([]); // info for old tracks for DisplaySongs
+  const [newTracks, setNewTracks] = useState([]); // info for new tracks for DisplaySongs
+  const [recsUri, setRecsUri] = useState([]); // holds the uris for recommendations for the button event handler
 
   const sampleTracks = [
     {
@@ -60,6 +61,7 @@ function GenerateRecs() {
   }
 
   async function createPlaylist(tracksUri) {
+    console.log(tracksUri);
     const { id: user_id } = await fetchWebApi('v1/me', 'GET');
 
     const playlist = await fetchWebApi(`v1/users/${user_id}/playlists`, 'POST', {
@@ -73,59 +75,76 @@ function GenerateRecs() {
     return playlist;
   }
 
+  useEffect(() => {
+    async function loadTracks() {
+      try {
+        const result = await getTopTracks();
+        const oldTracksData = result.map((track) => ({
+          name: track.name,
+          album: track.album.name,
+          artists: track.artists,
+          image: track.album.images[0].url,
+          id: track.id,
+        }));
+        setOldTracks(oldTracksData);
+
+        for (let i = 0; i < 50; i++) {
+          topTracksIds[i] = result[i].id;
+        }
+
+        parseTopTracks();
+
+        /* Fills the recommendedTracks array */
+
+        const newTracksData = [];
+        let counter = 0;
+        for (let i = 0; i < 10; i++) {
+          const tempRecs = await getRecommendations(i);
+          for (let j = 0; j < 5; j++) {
+            recommendedTracks[counter] = tempRecs[j].uri;
+            newTracksData[counter] =
+              {
+                name: tempRecs[j].name,
+                album: tempRecs[j].album.name,
+                artists: tempRecs[j].artists,
+                image: tempRecs[j].album.images[0].url,
+                id: tempRecs[j].id,
+              };
+            counter++;
+          }
+        }
+
+        setRecsUri(recommendedTracks);
+        setNewTracks(newTracksData);
+        
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching top tracks:', error);
+      }
+    }
+
+    loadTracks();
+  }, []);
+
   /* Upon click, we get the top tracks that the user listens to */
   const handleClick = async () => {
     if (!isClicked) {
       setIsClicked(true);
-      setIsLoading(true);
 
-      const result = await getTopTracks();
-      for (let i = 0; i < 50; i++) {
-        topTracksIds[i] = result[i].id;
-        oldTracks[i] = {
-          name: result[i].name,
-          album: result[i].album.name,
-          artists: result[i].artists,
-          image: result[i].album.images[0].url,
-          id: result[i].id,
-        };
-      }
+      const createdPlaylist = await createPlaylist(recsUri);
+      console.log(createdPlaylist);
 
-      parseTopTracks();
-      
-      /* Fills the recommendedTracks array */
-      let counter = 0;
-      for (let i = 0; i < 10; i++) {
-        const tempRecs = await getRecommendations(i);
-        for (let j = 0; j < 5; j++) {
-          recommendedTracks[counter] = tempRecs[j].uri;
-          newTracks[counter] = {
-            name: tempRecs[j].name,
-            album: tempRecs[j].album.name,
-            artists: tempRecs[j].artists,
-            image: tempRecs[j].album.images[0].url,
-            id: tempRecs[j].id,
-          };
-          counter++;
-        }
-      }
-
-      const createdPlaylist = await createPlaylist(recommendedTracks);
       setPlaylistMade(true);
-      setIsLoading(false);
-
     }
   };
 
   return (
         <div>
-          <button onClick={handleClick}>Click me!</button>
-
           { isLoading ?
           <h3>Loading...</h3>
           : (isClicked && playlistMade) ?
-            <DisplaySongs tracks={sampleTracks}/>
-            : <h3>Nothing to see</h3>
+            <DisplaySongs tracks={oldTracks}/>
+            : <button onClick={handleClick}>Click me!</button>
           }
         </div>
   );

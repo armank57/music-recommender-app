@@ -1,22 +1,38 @@
-.track-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    grid-gap: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
 .track-item {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; 
+    background-color: black;
+    border-radius: 8px;
 }
 
 .track-item img {
-    width: 200 px;
-    height: 200 px;
-    border-radius: 10 px;
-    margin-bottom: 10px;
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    margin-right: 10px;
 }
 
-.track-item p {
-    font-size: 18px;
+.track-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.track-details h3 {
+    margin-bottom: 0px;
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+.track-details p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.1;
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
 }
