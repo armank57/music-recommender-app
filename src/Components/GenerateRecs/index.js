@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './GenerateRecs.css';
-import DisplaySongs from '../DisplaySongs';
+import TwoLists from '../TwoLists';
 
 async function fetchWebApi(endpoint, method, body) {
   let accessToken = localStorage.getItem('access_token');
@@ -142,7 +142,7 @@ function GenerateRecs() {
           { isLoading ?
           <h3>Loading...</h3>
           : (isClicked && playlistMade) ?
-            <DisplaySongs tracks={oldTracks}/>
+            <TwoLists left={oldTracks} right={newTracks}/>
             : <button onClick={handleClick}>Click me!</button>
           }
         </div>
