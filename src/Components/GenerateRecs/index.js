@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './GenerateRecs.css';
 import TwoLists from '../TwoLists';
+import ViewPlaylist from '../ViewPlaylist';
 
 async function fetchWebApi(endpoint, method, body) {
   let accessToken = localStorage.getItem('access_token');
@@ -28,6 +29,7 @@ function GenerateRecs() {
   const [oldTracks, setOldTracks] = useState([]); // info for old tracks for DisplaySongs
   const [newTracks, setNewTracks] = useState([]); // info for new tracks for DisplaySongs
   const [recsUri, setRecsUri] = useState([]); // holds the uris for recommendations for the button event handler
+  const [playlistLink, setPlaylistLink] = useState(""); // contains link to created playlist
 
   const sampleTracks = [
     {
@@ -134,6 +136,7 @@ function GenerateRecs() {
       console.log(createdPlaylist);
 
       setPlaylistMade(true);
+      setPlaylistLink(createdPlaylist.external_urls.spotify);
     }
   };
 
@@ -142,7 +145,10 @@ function GenerateRecs() {
           { isLoading ?
           <h3>Loading...</h3>
           : (isClicked && playlistMade) ?
-            <TwoLists left={oldTracks} right={newTracks}/>
+            <div>
+              <TwoLists left={oldTracks} right={newTracks}/>
+              <ViewPlaylist playlistURL={playlistLink}/>
+            </div>
             : <button onClick={handleClick}>Click me!</button>
           }
         </div>
