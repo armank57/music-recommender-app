@@ -14,18 +14,30 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #000000;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(100, 57, 165);
 }
 
 .App-link {
   color: #61dafb;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  padding: 30px;
+}
+
+.logo {
+  width: 80 px;
+  height: 20 px;
 }
 
 @keyframes App-logo-spin {
@@ -35,4 +47,40 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.button-1 {
+  background-color: #3734e3;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-1:hover,
+.button-1:focus {
+  background-color: #5b64dd;
+}
+
+.instructions {
+  width: 1000px;
 }

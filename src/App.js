@@ -171,14 +171,21 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>MusicCrafter</h1>
-        <p>
-          Your personal music recommender! Log-in to Spotify to view your recent listening history, 
-          and we'll generate recommendations and a playlist to listen to right away in Spotify.
+        <p className="instructions">
+          Your personal music recommender! Log-in to Spotify to view your recent listening history 
+          from the past month, and we'll generate recommendations and a playlist to listen to right away in Spotify.
         </p>
 
         { !access_token ?
-        <button onClick={redirectToAuth}>Log In</button>
-        : <button onClick={logout}>Logout</button>
+        <div className="container">
+          <button onClick={redirectToAuth} className="button-1" role="button">Log In</button>
+          <img src={require('./Spotify_Logo_RGB_Green.png')} width={135} height={40} className="logo" alt="Spotify Logo"></img>
+        </div>
+        : 
+        <div className="container">
+          <button onClick={logout} className="button-1" role="button">Logout</button>          
+          <img src={require('./Spotify_Logo_RGB_Green.png')} width={135} height={40} className="logo" alt="Spotify Logo"></img>
+        </div>
         }
 
         { access_token ?

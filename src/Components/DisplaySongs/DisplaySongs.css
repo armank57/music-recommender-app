@@ -2,8 +2,9 @@
     display: flex;
     align-items: center;
     margin-bottom: 10px; 
-    background-color: black;
+    background-color: rgb(100, 57, 165);
     border-radius: 8px;
+    color: white;
 }
 
 .track-item img {
@@ -11,17 +12,17 @@
     height: 64px;
     object-fit: cover;
     margin-right: 10px;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
+    
 }
 
 .track-details {
     display: flex;
     flex-direction: column;
+    text-align: center;
 }
 
 .track-details h3 {
-    margin-bottom: 0px;
+    margin: 0px;
     font-size: 16px;
     line-height: 1.2;
 }

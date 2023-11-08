@@ -1,0 +1,14 @@
+.flex_container {
+    display: flex;
+    gap: 150px;
+}
+
+.flex_items {
+    flex: 1;
+    gap: 20px;
+}
+
+.text-1 {
+    color: #a65353;
+    text-decoration: underline;
+}

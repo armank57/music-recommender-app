@@ -1,7 +1,8 @@
 import React from 'react';
+import {useState} from 'react';
 import './DisplaySongs.css';
 
-const DisplaySongs = ({ tracks }) => {
+const DisplaySongs = ({ tracks }) => {    
     return (
         <div>
             {tracks.map((track) => (

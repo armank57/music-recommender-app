@@ -31,16 +31,6 @@ function GenerateRecs() {
   const [recsUri, setRecsUri] = useState([]); // holds the uris for recommendations for the button event handler
   const [playlistLink, setPlaylistLink] = useState(""); // contains link to created playlist
 
-  const sampleTracks = [
-    {
-      name: "Mo Bamba",
-      artists: ["Shek Wes"],
-      album: "Sample Album",
-      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Banana-Single.jpg/2324px-Banana-Single.jpg",
-      id: "000x",
-    }
-  ];
-
   /* Parses the topTrackIds into chunks of 5 */
   function parseTopTracks() {
     let counter = 0;
@@ -67,7 +57,7 @@ function GenerateRecs() {
 
     const playlist = await fetchWebApi(`v1/users/${user_id}/playlists`, 'POST', {
       "name": "MusicCrafter's Playlist",
-      "description": `Check out these songs, specificallly crafted for ${user_id}!`,
+      "description": `Check out these songs, specifically crafted for ${user_id}!`,
       "public": false
     });
 
@@ -149,7 +139,12 @@ function GenerateRecs() {
               <TwoLists left={oldTracks} right={newTracks}/>
               <ViewPlaylist playlistURL={playlistLink}/>
             </div>
-            : <button onClick={handleClick}>Click me!</button>
+            : 
+            <div>
+              <p className="p1">Click the button below to view your top fifty songs from the past few weeks, 
+                a list of fifty suggested tracks, and a playlist with all of those recommendations directly into your account.</p>
+              <button role="button" className="button-1" onClick={handleClick}>Generate Playlist</button>
+            </div>
           }
         </div>
   );

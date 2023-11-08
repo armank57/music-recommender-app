@@ -12,7 +12,7 @@ const ViewPlaylist = ({ playlistURL }) => {
     }
 
     return(
-        <button onClick={handleClick}>View Your Playlist Now!</button>
+        <button onClick={handleClick} className="button-1" role="button">View Your Playlist Now!</button>
     );
 }
 

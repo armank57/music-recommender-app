@@ -4,11 +4,13 @@ import DisplaySongs from '../DisplaySongs';
 
 const TwoLists = ({ left, right }) => {
     return(
-        <div style={{display: 'flex'}}>
-            <div style={{ flex: 1 }}>
+        <div className="flex_container">
+            <div className="flex_items">
+                <p className="text-1">Top Fifty Songs:</p>
                 <DisplaySongs tracks={left} />
             </div>
-            <div style={{ flex: 1 }}>
+            <div className="flex_items">
+                <p className="text-1">Fifty Suggestions:</p>
                 <DisplaySongs tracks={right} />
             </div>
         </div>
