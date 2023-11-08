@@ -88,9 +88,25 @@ function GenerateRecs() {
         /* Fills the recommendedTracks array */
 
         const newTracksData = [];
+        const newTracksIds = [];
         let counter = 0;
         for (let i = 0; i < 10; i++) {
-          const tempRecs = await getRecommendations(i);
+          
+          let tempRecs = [];
+          let repeat = 0;
+          do {
+            repeat = 0;
+            tempRecs = await getRecommendations(i);
+            for (let j = 0; j < 5; j++) {
+              if (newTracksIds.includes(tempRecs[j].id) || topTracksIds.includes(tempRecs[j].id)) {
+                repeat = 1;
+                console.log("Repeat found!");
+                console.log(tempRecs[j]);
+                break;
+              }
+            }
+          } while (repeat == 1);
+          
           for (let j = 0; j < 5; j++) {
             recommendedTracks[counter] = tempRecs[j].uri;
             newTracksData[counter] =
@@ -101,6 +117,7 @@ function GenerateRecs() {
                 image: tempRecs[j].album.images[0].url,
                 id: tempRecs[j].id,
               };
+            newTracksIds[counter] = tempRecs[j].id;
             counter++;
           }
         }
@@ -141,8 +158,8 @@ function GenerateRecs() {
             </div>
             : 
             <div>
-              <p className="p1">Click the button below to view your top fifty songs from the past few weeks, 
-                a list of fifty suggested tracks, and a playlist with all of those recommendations directly into your account.</p>
+              <p className="p1">Click the button below to view your top 50 songs from the past few weeks, 
+                a list of 50 suggested tracks, and a playlist with all of those recommendations directly into your account.</p>
               <button role="button" className="button-1" onClick={handleClick}>Generate Playlist</button>
             </div>
           }

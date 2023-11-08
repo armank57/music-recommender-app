@@ -6,11 +6,11 @@ const TwoLists = ({ left, right }) => {
     return(
         <div className="flex_container">
             <div className="flex_items">
-                <p className="text-1">Top Fifty Songs:</p>
+                <p className="text-1">Top 50 Songs:</p>
                 <DisplaySongs tracks={left} />
             </div>
             <div className="flex_items">
-                <p className="text-1">Fifty Suggestions:</p>
+                <p className="text-1">50 Suggestions:</p>
                 <DisplaySongs tracks={right} />
             </div>
         </div>
