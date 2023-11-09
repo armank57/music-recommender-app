@@ -93,6 +93,8 @@ function GenerateRecs() {
         for (let i = 0; i < 10; i++) {
           
           let tempRecs = [];
+
+          /* Following do-while loop rejects repeating tracks from being recommended */
           let repeat = 0;
           do {
             repeat = 0;
@@ -100,8 +102,6 @@ function GenerateRecs() {
             for (let j = 0; j < 5; j++) {
               if (newTracksIds.includes(tempRecs[j].id) || topTracksIds.includes(tempRecs[j].id)) {
                 repeat = 1;
-                console.log("Repeat found!");
-                console.log(tempRecs[j]);
                 break;
               }
             }
@@ -131,7 +131,9 @@ function GenerateRecs() {
       }
     }
 
-    loadTracks();
+    if (!playlistMade) {
+      loadTracks();
+    }
   }, []);
 
   /* Upon click, we get the top tracks that the user listens to */
@@ -153,8 +155,8 @@ function GenerateRecs() {
           <h3>Loading...</h3>
           : (isClicked && playlistMade) ?
             <div>
-              <TwoLists left={oldTracks} right={newTracks}/>
               <ViewPlaylist playlistURL={playlistLink}/>
+              <TwoLists left={oldTracks} right={newTracks}/>
             </div>
             : 
             <div>
