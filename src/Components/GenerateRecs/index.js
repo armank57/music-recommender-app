@@ -76,6 +76,7 @@ function GenerateRecs() {
           artists: track.artists,
           image: track.album.images[0].url,
           id: track.id,
+          link: track.external_urls.spotify,
         }));
         setOldTracks(oldTracksData);
 
@@ -116,6 +117,7 @@ function GenerateRecs() {
                 artists: tempRecs[j].artists,
                 image: tempRecs[j].album.images[0].url,
                 id: tempRecs[j].id,
+                link: tempRecs[j].external_urls.spotify,
               };
             newTracksIds[counter] = tempRecs[j].id;
             counter++;

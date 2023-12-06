@@ -128,6 +128,7 @@ function App() {
   }
 
   function handleError(error) {
+    logout();
     console.error(error);
   }
 
@@ -160,7 +161,7 @@ function App() {
     if (code && !token) {
       exchangeToken(code);
     } 
-  }, [])
+  }, [access_token])
 
   const logout = () => {
     localStorage.clear();
