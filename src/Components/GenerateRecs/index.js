@@ -4,7 +4,7 @@ import TwoLists from '../TwoLists';
 import ViewPlaylist from '../ViewPlaylist';
 
 async function fetchWebApi(endpoint, method, body) {
-  let accessToken = localStorage.getItem('access_token');
+  let accessToken = sessionStorage.getItem('access_token');
   
   const res = await fetch(`https://api.spotify.com/${endpoint}`, {
       headers: {

@@ -8,9 +8,9 @@ function App() {
   const REDIRECT_URI = "http://localhost:3000";
   const SCOPES = 'user-top-read playlist-modify-private';
 
-  const [access_token, setAccessToken] = useState(() => localStorage.getItem('access_token'));
-  const [refresh_token, setRefreshToken] = useState(() => localStorage.getItem('refresh_token') || null);
-  const [expires_at, setExpiresAt] = useState(() => localStorage.getItem('expires_at') || null);
+  const [access_token, setAccessToken] = useState(() => sessionStorage.getItem('access_token'));
+  const [refresh_token, setRefreshToken] = useState(() => sessionStorage.getItem('refresh_token') || null);
+  const [expires_at, setExpiresAt] = useState(() => sessionStorage.getItem('expires_at') || null);
 
   function generateRandomString(length) {
     let text = '';
@@ -49,7 +49,7 @@ function App() {
     const codeVerifier = generateRandomString(64);
     
     generateCodeChallenge(codeVerifier).then((code_challenge) => {
-      window.localStorage.setItem('code_verifier', codeVerifier);
+      window.sessionStorage.setItem('code_verifier', codeVerifier);
 
       window.location = generateUrlWithSearchParams(
         'https://accounts.spotify.com/authorize',
@@ -66,7 +66,7 @@ function App() {
   }
 
   function exchangeToken(code) {
-    const code_verifier = localStorage.getItem('code_verifier');
+    const code_verifier = sessionStorage.getItem('code_verifier');
     
     fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
@@ -122,9 +122,9 @@ function App() {
     const expirationTime = t.setSeconds(t.getSeconds() + data.expires_in);
     setExpiresAt(expirationTime);
 
-    localStorage.setItem('access_token', data.access_token);
-    localStorage.setItem('refresh_token', data.refresh_token);
-    localStorage.setItem('expires_at', expirationTime);
+    sessionStorage.setItem('access_token', data.access_token);
+    sessionStorage.setItem('refresh_token', data.refresh_token);
+    sessionStorage.setItem('expires_at', expirationTime);
   }
 
   function handleError(error) {
@@ -156,7 +156,7 @@ function App() {
   useEffect( () => {
     const args = new URLSearchParams(window.location.search);
     let code = args.get('code');
-    let token = localStorage.getItem('access_token');
+    let token = sessionStorage.getItem('access_token');
 
     if (code && !token) {
       exchangeToken(code);
@@ -164,7 +164,7 @@ function App() {
   }, [access_token])
 
   const logout = () => {
-    localStorage.clear();
+    sessionStorage.clear();
     window.location.reload();
   }
 
