@@ -14,14 +14,14 @@
 }
 
 .App-header {
-  background-color: #9e9c9c;
+  background-color: rgb(2, 2, 38);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: rgb(106, 77, 149);
+  color: #97f3f3;
 }
 
 .App-link {
@@ -57,7 +57,7 @@
   color: #FFFFFF;
   cursor: pointer;
   display: inline-block;
-  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue Light", Helvetica, Arial, sans-serif;
   font-size: 14px;
   font-weight: 500;
   height: 40px;
