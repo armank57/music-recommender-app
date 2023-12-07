@@ -1,0 +1,25 @@
+.flex_container {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+
+.flex_items {
+    flex: 1;
+    gap: 20px;
+}
+
+.text-1 {
+    color: #97f3f3;
+    text-decoration: underline;
+}
+
+.instructions {
+    width: 465px;
+    text-align: left;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.logo {
+    border-radius: 25%;
+}

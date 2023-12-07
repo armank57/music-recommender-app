@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { GenerateRecs } from './Components';
+import { GenerateRecs, Heading } from './Components';
 import './App.css';
 
 function App() {
@@ -171,11 +171,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>MusicCrafter</h1>
-        <p className="instructions">
-          Your personal music recommender! Log-in to Spotify to view your recent listening history 
-          from the past month, and we'll generate recommendations and a playlist to listen to right away in Spotify.
-        </p>
+        <Heading />
 
         { !access_token ?
         <div className="container">
