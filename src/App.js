@@ -180,14 +180,14 @@ function App() {
         </div>
         : 
         <div className="container">
-          <button onClick={logout} className="button-1" role="button">Logout</button>          
+          <button onClick={logout} className="button-1" role="button">Log Out</button>          
           <img src={require('./Spotify_Logo_RGB_Green.png')} width={135} height={40} className="logo" alt="Spotify Logo"></img>
         </div>
         }
 
         { access_token ?
         <GenerateRecs />
-        : <h3>Please log-in to gain access to the rest of the page.</h3>
+        : <h3>Please log in to gain access to the rest of the page.</h3>
         }
 
       </header>

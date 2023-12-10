@@ -56,8 +56,8 @@ function GenerateRecs() {
     const { id: user_id } = await fetchWebApi('v1/me', 'GET');
 
     const playlist = await fetchWebApi(`v1/users/${user_id}/playlists`, 'POST', {
-      "name": "MusicCrafter's Playlist",
-      "description": `Check out these songs, specifically crafted for ${user_id}!`,
+      "name": `${user_id}'s Beats by Chimp`,
+      "description": `oo oo ah ah 🐒`,
       "public": false
     });
 

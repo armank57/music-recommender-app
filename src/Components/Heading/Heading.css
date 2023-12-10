@@ -17,9 +17,17 @@
 .instructions {
     width: 465px;
     text-align: left;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: "Helvetica Neue Light", Helvetica, Arial, sans-serif;
+    font-size: 25px;
+    line-height: 1;
 }
 
 .logo {
     border-radius: 25%;
+}
+
+.title {
+    text-align: left;
+    font-size: 65px;
+    line-height: 0;
 }
