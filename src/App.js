@@ -5,7 +5,7 @@ import './App.css';
 function App() {
 
   const CLIENT_ID = "3bfca1a4fbc94f3f9a861b34e5c8d61f";
-  const REDIRECT_URI = "http://localhost:3000";
+  const REDIRECT_URI = "http://chimp-n-beats.vercel.app";
   const SCOPES = 'user-top-read playlist-modify-private';
 
   const [access_token, setAccessToken] = useState(() => sessionStorage.getItem('access_token'));
