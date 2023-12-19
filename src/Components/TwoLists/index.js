@@ -4,7 +4,7 @@ import DisplaySongs from '../DisplaySongs';
 
 const TwoLists = ({ left, right }) => {
     return(
-        <div className="flex_container">
+        <div className="flex_container">        
             <div className="flex_items">
                 <p className="text-1">Your Top 50 Songs:</p>
                 <DisplaySongs tracks={left} />

@@ -144,7 +144,6 @@ function GenerateRecs() {
       setIsClicked(true);
 
       const createdPlaylist = await createPlaylist(recsUri);
-      console.log(createdPlaylist);
 
       setPlaylistMade(true);
       setPlaylistLink(createdPlaylist.external_urls.spotify);
